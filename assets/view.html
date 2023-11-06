@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
+  <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100%;
+      width: 100%;
+      padding: 20px;
+      padding-top: 36px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .input-container {
+      position: relative;
+      max-width: 1000px;
+      width: 100%;
+    }
+
+    .text-input {
+      width: 100%;
+      height: 36px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .button {
+      width: 100%;
+      height: 36px;
+      margin-top: 16px;
+      background-color: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="input-contianer">
+    <input type="text" class="text-input" id="text-input" placeholder=" ">
+    <button class="button">전송</button>
+  </div>
+</body>
+<script>
+  const button = document.querySelector("button");
+  const input = document.querySelector("input");
+
+  button.addEventListener("click", (event) => {
+    if ("messageHandler" in window) {
+      messageHandler.postMessage(input.value);
+    }
+    window.parent.postMessage(input.value, '*');
+  });
+
+  if ("messageHandler" in window) {
+    messageHandler.addEventListener('message', (event) => {
+      alert(event.data);
+    });
+  }
+
+  window.parent.addEventListener('message', (event) => {
+    console.log(event);
+    alert(event.data);
+  });
+</script>
+
+</html>
